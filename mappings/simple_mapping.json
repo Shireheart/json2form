@@ -1,0 +1,60 @@
+{
+    "$schema": "./schema.json",
+    "mapping": {
+        "string": [
+            "<label title=\"${description}\" for=\"${id}\">${title}</label>",
+            "<input id=\"${id}\" type=\"text\">"
+        ],
+        "string_enum": [
+            "<div title=\"${description}\">",
+            "<label for=\"${id}\">${title}</label>",
+            "<select id=\"${id}\">",
+            {
+                "for": "values",
+                "html": [
+                    {
+                        "if": "${f-elt}",
+                        "cond": "=",
+                        "cmp": "${default}",
+                        "html": [
+                            "<option selected value=\"${f-elt}\">${f-elt}</option>"
+                        ],
+                        "else": [
+                            "<option value=\"${f-elt}\">${f-elt}</option>"
+                        ]
+                    }
+                ]
+            },
+            "</select>",
+            "</div>"
+        ],
+        "integer": [
+            "<label title=\"${description}\" for=\"${id}\">${title}</label>",
+            "<input id=\"${id}\" type=\"number\">"
+        ],
+        "boolean": [
+            "<label title=\"${description}\" for=\"${id}\">${title}</label>",
+            "<input id=\"${id}\" type=\"checkbox\">"
+        ],
+        "object": [
+            "<p title=\"${description}\">${title}</p>",
+            "<ul>",
+            {
+                "for": "properties",
+                "as": "f-elt",
+                "html": [
+                    "<li>${f-elt}</li>"
+                ]
+            },
+            "</ul>"
+        ],
+        "array": [
+            "<i title=\"${description}\">${title}</i>",
+            "<br/>",
+            "${new-elt}",
+            "<button>Add</button>"
+        ],
+        "null": [
+        ]
+    }
+}

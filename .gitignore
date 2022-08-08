@@ -1,0 +1,9 @@
+# Python venv
+venv/
+
+# Ignore test files for privacy
+tests/*
+!tests/zap_advanced_schema.json
+
+# VSCode
+.vscode/tasks.json

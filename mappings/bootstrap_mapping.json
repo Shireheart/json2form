@@ -1,0 +1,68 @@
+{
+    "$schema": "./schema.json",
+    "mapping": {
+        "string": [
+            "<div class=\"mb-3\" data-bs-toggle=\"tooltip\" data-bs-custom-class=\"custom-tooltip\" title=\"${description}\">",
+            "<label class=\"form-label\" for=\"${id}\">${title}</label>",
+            "<input value=\"${default}\" class=\"form-control\" id=\"${id}\" type=\"text\">",
+            "</div>"
+        ],
+        "string_enum": [
+            "<div class=\"mb-3\" data-bs-toggle=\"tooltip\" data-bs-custom-class=\"custom-tooltip\" title=\"${description}\">",
+            "<label class=\"form-label\" for=\"${id}\">${title}</label>",
+            "<select class=\"form-select\" id=\"${id}\">",
+            {
+                "for": "values",
+                "html": [
+                    {
+                        "if": "${f-elt}",
+                        "cond": "=",
+                        "cmp": "${default}",
+                        "html": [
+                            "<option selected value=\"${f-elt}\">${f-elt}</option>"
+                        ],
+                        "else": [
+                            "<option value=\"${f-elt}\">${f-elt}</option>"
+                        ]
+                    }
+                ]
+            },
+            "</select>",
+            "</div>"
+        ],
+        "integer": [
+            "<div class=\"mb-3\" data-bs-toggle=\"tooltip\" data-bs-custom-class=\"custom-tooltip\" title=\"${description}\">",
+            "<label class=\"form-label\" for=\"${id}\">${title}</label>",
+            "<input value=\"${default}\" class=\"form-control\" id=\"${id}\" type=\"number\" :machinnnn=\"state['${id}'] = '${default}'\">",
+            "</div>"
+        ],
+        "boolean": [
+            "<div class=\"form-check form-switch mb-3\" data-bs-toggle=\"tooltip\" data-bs-custom-class=\"custom-tooltip\" title=\"${description}\">",
+            "<input value=\"${default}\" class=\"form-check-input\" type=\"checkbox\" role=\"switch\" id=\"${id}\" ${checked}>",
+            "<label class=\"form-check-label\" for=\"${id}\">${title}</label>",
+            "</div>"
+        ],
+        "object": [
+            "<p data-bs-toggle=\"collapse\" data-bs-target=\"#${id}-ul\"><span data-bs-toggle=\"tooltip\" data-bs-custom-class=\"custom-tooltip\" title=\"${description}\">${title}</span></p>",
+            "<ul class=\"collapse\" id=\"${id}-ul\">",
+            {
+                "for": "properties",
+                "html": [
+                    "<li>${f-elt}</li>"
+                ]
+            },
+            "</ul>"
+        ],
+        "array": [
+            "<div class=\"border p-2 mb-3\">",
+            "<i data-bs-toggle=\"tooltip\" data-bs-custom-class=\"custom-tooltip\" title=\"${description}\">${title}</i>",
+            "<br/>",
+            "<div data-array=\"${id}\">",
+            "${new-elt}",
+            "</div>",
+            "<button class=\"btn btn-outline-primary btn-sm\">Add</button>",
+            "</div>"
+        ],
+        "null": []
+    }
+}

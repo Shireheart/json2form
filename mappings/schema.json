@@ -1,0 +1,102 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "ACTIA/tmp/j2f/schema.json",
+    "title": "Mapping instructions",
+    "description": "Schema for the mapping of parsed types to HTML content.",
+    "type": "object",
+    "properties": {
+        "mapping": {
+            "type": "object",
+            "title": "Mapping fields",
+            "description": "Each field parsed must have a mapping.",
+            "propertyNames": {
+                "enum": [
+                    "string",
+                    "string_enum",
+                    "integer",
+                    "boolean",
+                    "object",
+                    "array",
+                    "null"
+                ]
+            },
+            "patternProperties": {
+                "": { "$ref": "#/definitions/lines" }
+            },
+            "additionalProperties": false
+        }
+    },
+
+    "definitions": {
+        "lines": {
+            "type": "array",
+            "title": "Lines mapped",
+            "description": "Each line can either be a string or a statement (loop, condition...).",
+            "items": {
+                "anyOf": [
+                    { "$ref": "#/definitions/simple_line" },
+                    { "$ref": "#/definitions/for_loop" },
+                    { "$ref": "#/definitions/if_condition" }
+                ]
+            }
+        },
+        "simple_line": {
+            "type": "string",
+            "title": "The resulting HTML content is the provided string"
+        },
+        "for_loop": {
+            "type": "object",
+            "title": "For loop",
+            "description": "The resulting HTML content is the concatenation of every line in the 'html' property.",
+            "properties": {
+                "for": {
+                    "type": "string",
+                    "title": "Iteration variable",
+                    "description": "Name of the variable that the for-loop will iterate over. Must be an array."
+                },
+                "html": {
+                    "$ref": "#/definitions/lines"
+                }
+            },
+            "required": [
+                "for",
+                "html"
+            ]
+        },
+        "if_condition": {
+            "type": "object",
+            "title": "If condition",
+            "description": "The resulting HTML content is the concatenation of every line in the 'html' property if the condition is TRUE, otherwise it is the concatenation of every line in the 'else' property.",
+            "properties": {
+                "if": {
+                    "type": "string",
+                    "title": "Value to test"
+                },
+                "cond": {
+                    "type": "string",
+                    "title": "Condition to check",
+                    "enum": [
+                        "=",
+                        ">",
+                        ">=",
+                        "<",
+                        "<=",
+                        "!="
+                    ]
+                },
+                "cmp": {
+                    "type": "string",
+                    "title": "Value to compare against"
+                },
+                "html": { "$ref": "#/definitions/lines" },
+                "else": { "$ref": "#/definitions/lines" }
+            },
+            "required": [
+                "if",
+                "cond",
+                "cmp",
+                "html"
+            ]
+        }
+    }
+}
